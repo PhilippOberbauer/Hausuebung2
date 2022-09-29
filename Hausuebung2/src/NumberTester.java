@@ -29,8 +29,10 @@ public class NumberTester {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(fileName));
             String line = reader.readLine();
-            while (line != null)
+            int numberOfTests = Integer.parseInt(line);
+            for (int i = 0; i < numberOfTests; i++)
             {
+                line = reader.readLine();
                 String[] arr = line.split(" ");
                 int firstNumber = Integer.parseInt(arr[0]);
                 int secondNumber = Integer.parseInt(arr[1]);
@@ -38,7 +40,7 @@ public class NumberTester {
                 if (firstNumber == 1)
                 {
                     setOddEvenTester((number) -> (number % 2) == 0);
-                    if (oddTester.testNumber(secondNumber) == true)
+                    if (oddTester.testNumber(secondNumber))
                     {
                         System.out.println("EVEN");
                     }
@@ -50,9 +52,9 @@ public class NumberTester {
                 else if (firstNumber == 2)
                 {
                     setPrimeTester((number) -> {
-                        for (int i = 2; i <= number; i++)
+                        for (int j = 2; j < number; j++)
                         {
-                            if ((number % i) == 0)
+                            if ((number % j) == 0)
                             {
                                 return false;
                             }
@@ -86,7 +88,6 @@ public class NumberTester {
                         System.out.println("NO PALINDROME");
                     }
                 }
-                line = reader.readLine();
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
