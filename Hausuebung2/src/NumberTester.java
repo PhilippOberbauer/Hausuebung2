@@ -1,3 +1,8 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class NumberTester {
     private String fileName;
     private NumberTest oddTester;
@@ -21,6 +26,70 @@ public class NumberTester {
     }
 
     public void testFile() {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+            String line = reader.readLine();
+            while (line != null)
+            {
+                String[] arr = line.split(" ");
+                int firstNumber = Integer.parseInt(arr[0]);
+                int secondNumber = Integer.parseInt(arr[1]);
 
+                if (firstNumber == 1)
+                {
+                    setOddEvenTester((number) -> (number % 2) == 0);
+                    if (oddTester.testNumber(secondNumber) == true)
+                    {
+                        System.out.println("EVEN");
+                    }
+                    else
+                    {
+                        System.out.println("ODD");
+                    }
+                }
+                else if (firstNumber == 2)
+                {
+                    setPrimeTester((number) -> {
+                        for (int i = 2; i <= number; i++)
+                        {
+                            if ((number % i) == 0)
+                            {
+                                return false;
+                            }
+                        }
+
+                        return true;
+                    });
+                    if (primeTester.testNumber(secondNumber))
+                    {
+                        System.out.println("PRIME");
+                    }
+                    else
+                    {
+                        System.out.println("NO PRIME");
+                    }
+                }
+                else
+                {
+                    setPalindromeTester((number) -> {
+                        StringBuilder s = new StringBuilder(Integer.toString(secondNumber));
+                        s = s.reverse();
+                        int palindrome = Integer.parseInt(s.toString());
+                        return palindrome == number;
+                    });
+                    if (palindromeTester.testNumber(secondNumber))
+                    {
+                        System.out.println("PALINDROME");
+                    }
+                    else
+                    {
+                        System.out.println("NO PALINDROME");
+                    }
+                }
+                line = reader.readLine();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
