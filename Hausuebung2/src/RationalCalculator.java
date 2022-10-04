@@ -41,13 +41,20 @@ public class RationalCalculator extends AbstractCalculator{
 
     public double ggt(Number result)
     {
-        double ggt;
         double a = result.getA();
+        if (a < 0)
+        {
+            a = -a;
+        }
         double b = result.getB();
+        if (b < 0)
+        {
+            b = -b;
+        }
 
         if (a == 0)
         {
-            ggt = b;
+            return b;
         }
 
         while (b != 0)
@@ -62,7 +69,6 @@ public class RationalCalculator extends AbstractCalculator{
             }
         }
 
-        ggt = a;
-        return ggt;
+        return a;
     }
 }
