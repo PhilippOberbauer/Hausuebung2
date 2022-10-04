@@ -78,9 +78,17 @@ public class CalculatorMain {
                     default:
                         System.out.println("Ungültige Eingabe");
                 }
+
                 System.out.println("Solution:");
                 System.out.println("a = " + result.getA());
-                System.out.println("b = " + result.getB());
+                if (input != 3)
+                {
+                    System.out.println("b = " + result.getB());
+                }
+                else
+                {
+                    System.out.println("b = " + result.getB() + "i");
+                }
             }
         } while (input != 4);
     }
@@ -97,7 +105,7 @@ public class CalculatorMain {
             Number result = new Number();
             result.setA((x.getA() * y.getB()) - (x.getB() * y.getA()));
             result.setB(x.getB() * y.getB());
-            return result; 
+            return result;
         });
         CalculationOperation ratMul = ((x, y) -> {
             Number result = new Number();
@@ -127,16 +135,43 @@ public class CalculatorMain {
         });
         CalculationOperation vecMul = ((x, y) -> {
             Number result = new Number();
-            result.setA(x.getA() + y.getA());
-            result.setB(x.getB() + y.getB());
-            return result; //falsch, kreuzprodukt
+            result.setA(x.getA() * y.getB() - x.getB() * y.getA());
+            result.setB(1.0);
+            return result;
         });
         CalculationOperation vecDiv = ((x, y) -> {
             Number result = new Number();
-            result.setA(x.getA() + y.getA());
-            result.setB(x.getB() + y.getB());
-            return result; //falsch, skalrarprodukt
+            result.setA(x.getA() * y.getA() + x.getB() * y.getB());
+            result.setB(1.0);
+            return result;
         });
         vectorCalculator = new VectorCalculator(vecAdd, vecSub, vecMul, vecDiv);
+
+        CalculationOperation comAdd = ((x, y) -> {
+            Number result = new Number();
+            result.setA(x.getA() + y.getA());
+            result.setB(x.getB() + y.getB());
+            return result;
+        });
+        CalculationOperation comSub = ((x, y) -> {
+            Number result = new Number();
+            result.setA(x.getA() - y.getA());
+            result.setB(x.getB() - y.getB());
+            return result;
+        });
+        CalculationOperation comMul = ((x, y) -> {
+            Number result = new Number();
+            result.setA((x.getA() * y.getA()) - (x.getB() * y.getB()));
+            result.setB((x.getB() * y.getA()) + (x.getA() * y.getB()));
+            return result;
+        });
+        CalculationOperation comDiv = ((x, y) -> {
+            Number result = new Number();
+            double square = Math.pow(y.getA(), 2) + Math.pow(y.getB(),2);
+            result.setA(((x.getA() * y.getA()) + (x.getB() * y.getB())) / square);
+            result.setB(((x.getB() * y.getA()) - (x.getA() * y.getB())) / square);
+            return result;
+        });
+        complexCalculator = new ComplexCalculator(comAdd, comSub, comMul, comDiv);
     }
 }
